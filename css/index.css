@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+body {
+  font-family: 'Roboto Mono';
+  background-color: black;
+}
+
+/* Buttons Style */
+#controls{
+	color: #fff !important;
+	background: #2A52BE;
+  font-family: 'Roboto Mono';
+	padding: 0.8em;
+  margin: 1em;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
+}
+#controls:hover {
+	background: #434343;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
+}
+
+/* All Cards Style */
+.cards {
+    margin: 0.2em auto;
+    width : 98%;
+    display:flex;
+    font-size: 1em;
+    padding: 0.25em;
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(255,255,255,0.57);
+  	-moz-box-shadow: 0px 5px 40px -10px rgba(255,255,255,0.57);
+  	box-shadow: 5px 40px -10px rgba(255,255,255,0.57);
+}
+
+/* Grid Cell and row */
+.row {
+  display: flex;
+  font-size: 1em;
+  text-align: center;
+  color: red;
+ }
+.cell {
+  width : 2vw;
+  height: 2vw;
+  margin: 0px;
+  border: 1px solid black;
+}
