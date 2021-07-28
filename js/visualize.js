@@ -10,6 +10,7 @@ var moveX = [0, -1, 1, 0];
 var moveY = [-1, 0, 0, 1];
 var Grid;
 var Vis;
+var Algorithm = "DFS";
 ///////////
 
 window.onload = CreateGrid;
@@ -75,11 +76,13 @@ function setState(element) {
         var name = element.id;
         sX = +x;
         sY = +y;
+        Grid[sX][sY]=2;
         element.style = "background-color: green;"
     } else if (dX == -1) {
         var name = element.id;
         dX = +x;
         dY = +y;
+        Grid[dX][dY]=2;
         element.style = "background-color: blue;"
     } else {
         Grid[x][y] = -1;
@@ -100,9 +103,9 @@ function setCellColor(a, b, color) {
     if (b < 10) y = "0" + b;
     var cellid = "C" + x + "_" + y;
     document.getElementById(cellid).style = "background-color:" + color +
-                  ";-webkit-transition: background-color 1000ms linear;"+
-                  "-ms-transition: background-color 1000ms linear;"+
-                  "transition: background-color 1000ms linear;";
+                  ";-webkit-transition: background-color 100ms linear;"+
+                  "-ms-transition: background-color 100ms linear;"+
+                  "transition: background-color 100ms linear;";
 }
 async function DFS(a, b) {
     if (Vis[a][b] == 1 || await STOP == 1 || Grid[a][b] == -1) return;
@@ -120,7 +123,7 @@ async function DFS(a, b) {
         var nX = a + moveX[i];
         var nY = b + moveY[i];
         if (isValid(nX, nY)) {
-            await dfs(nX, nY)
+            await DFS(nX, nY)
         }
     }
 }
@@ -156,7 +159,22 @@ async function BFS(a,b) {
   }
 
 }
+function setAlgo(element) {
+  Algorithm = element.innerHTML;
+  document.getElementById("algo-div").innerHTML = Algorithm;
+}
 function Solve() {
+    for(var i=0;i<N;i++){
+      for(var j=0;j<M;j++){
+        Vis[i][j]=0;
+        if(Grid[i][j]==0)
+        setCellColor(i,j,"transparent");
+      }
+    }
     STOP = 0;
-    BFS(sX, sY);
+    if(Algorithm=="BFS")
+      BFS(sX, sY);
+    else{
+      DFS(sX,sY);
+    }
 }
