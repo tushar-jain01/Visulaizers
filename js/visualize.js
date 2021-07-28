@@ -110,7 +110,6 @@ function setCellColor(a, b, color) {
 async function DFS(a, b) {
     if (Vis[a][b] == 1 || await STOP == 1 || Grid[a][b] == -1) return;
     if (a == dX && b == dY) {
-        setCellColor(a, b, "yellow");
         STOP = 1;
         return;
     }
@@ -142,7 +141,6 @@ async function BFS(a,b) {
       var nX = x+moveX[i];
       var nY = y+moveY[i];
       if (nX == dX && nY == dY) {
-          setCellColor(nX, nY, "yellow");
           STOP=1;
           break;
       }
