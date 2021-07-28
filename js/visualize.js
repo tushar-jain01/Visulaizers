@@ -6,7 +6,14 @@ var dY = -1;
 var N = 18;
 var M = 45;
 var STOP = 0;
+var moveX = [0, -1, 1, 0];
+var moveY = [-1, 0, 0, 1];
+var Grid;
+var Vis;
 ///////////
+
+window.onload = CreateGrid;
+
 
 function sleep(ms) {
     return new Promise(
@@ -29,9 +36,6 @@ function createArray(length) {
 
     return arr;
 }
-
-var Grid;
-var Vis;
 
 function CreateGrid() {
     /*
@@ -85,6 +89,7 @@ function setState(element) {
 
 function isValid(a, b) {
     if (a < 0 || b < 0 || a >= N || b >= M) return false;
+    else if(Vis[a][b]==1 || Grid[a][b]==-1)return false;
     else return true;
 }
 
@@ -94,9 +99,12 @@ function setCellColor(a, b, color) {
     if (a < 10) x = "0" + a;
     if (b < 10) y = "0" + b;
     var cellid = "C" + x + "_" + y;
-    document.getElementById(cellid).style = "background-color:" + color + "";
+    document.getElementById(cellid).style = "background-color:" + color +
+                  ";-webkit-transition: background-color 1000ms linear;"+
+                  "-ms-transition: background-color 1000ms linear;"+
+                  "transition: background-color 1000ms linear;";
 }
-async function dfs(a, b) {
+async function DFS(a, b) {
     if (Vis[a][b] == 1 || await STOP == 1 || Grid[a][b] == -1) return;
     if (a == dX && b == dY) {
         setCellColor(a, b, "yellow");
@@ -108,22 +116,47 @@ async function dfs(a, b) {
         setCellColor(a, b, "purple");
         await sleep(5);
     }
-    var moveX = [0, -1, 1, 0];
-    var moveY = [-1, 0, 0, 1];
-    var i = 0;
-    for (i; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
         var nX = a + moveX[i];
         var nY = b + moveY[i];
         if (isValid(nX, nY)) {
             await dfs(nX, nY)
         }
     }
-
-
 }
 
+async function BFS(a,b) {
+  var que = [];
+  que.push([a,b]);
+  Vis[a][b] = 1;
+
+  while (que.length!=0) {
+    var Cell = que[0];
+    var x = Cell[0];
+    var y = Cell[1];
+    que.shift();
+    for(var i=0;i<4;i++){
+      var nX = x+moveX[i];
+      var nY = y+moveY[i];
+      if (nX == dX && nY == dY) {
+          setCellColor(nX, nY, "yellow");
+          STOP=1;
+          break;
+      }
+      if(isValid(nX,nY)){
+        que.push([nX,nY]);
+        Vis[nX][nY]=1;
+        setCellColor(nX,nY,"purple");
+        await sleep(5);
+      }
+    }
+    if(STOP==1){
+      break;
+    }
+  }
+
+}
 function Solve() {
     STOP = 0;
-    console.log("C" + sX + "_" + sY);
-    dfs(sX, sY);
+    BFS(sX, sY);
 }
